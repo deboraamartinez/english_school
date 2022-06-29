@@ -15,9 +15,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   People.init({
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        functionValidateName: function (data) {
+          if (data.length < 3) throw new Error('The name must be completed')
+        }
+
+      }
+    },
     status: DataTypes.BOOLEAN,
-    email: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: {
+          args: true,
+          msg: "Must be an email"
+        }
+      }
+    },
     role: DataTypes.STRING
   }, {
     sequelize,
