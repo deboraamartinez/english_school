@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       People.hasMany(models.Classes, { foreignKey: 'teacherId' })
-      People.hasMany(models.Enrollments, { foreignKey: 'studentId' })
+      People.hasMany(models.Enrollments, { foreignKey: 'studentId', scope: { status: 'Confirmed' }, as: 'confirmedEnrollments' })
     }
   }
   People.init({

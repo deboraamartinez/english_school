@@ -170,7 +170,22 @@ class PersonController {
     }
   }
 
+  static async getPersonEnrollments(req, res) {
+    const { studentId } = req.params
+    try {
+      const person = await database.People.findOne({ where: { id: Number(studentId) } })
+      const enrollments = await person.getConfirmedEnrollments()
+      return res
+        .status(200)
+        .json(enrollments)
 
+    } catch (error) {
+      return res
+        .status(500)
+        .json(error.message)
+
+    }
+  }
 
 }
 
