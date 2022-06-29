@@ -16,9 +16,23 @@ class PersonController {
         .json(error.message)
     }
   }
+
+  static async getAllActivePeople(req, res) {
+    try {
+      const allActivePeople = await database.People.findAll()
+      return res
+        .status(200)
+        .json(allActivePeople)
+    } catch (error) {
+      return res
+        .status(500)
+        .json(error.message)
+    }
+  }
+
   static async getAllPeople(req, res) {
     try {
-      const allPeople = await database.People.findAll()
+      const allPeople = await database.People.scope('all').findAll()
       return res
         .status(200)
         .json(allPeople)
@@ -72,6 +86,22 @@ class PersonController {
       return res
         .status(500)
         .json(error.message)
+    }
+  }
+
+  static async restorePerson(req, res) {
+    const { id } = req.params
+    try {
+      await database.People.restore({ where: { id: Number(id) } })
+      return res
+        .status(200)
+        .json({ message: `Id ${id} successfully restored` })
+
+    } catch (error) {
+      return res
+        .status(500)
+        .json(error.message)
+
     }
   }
 

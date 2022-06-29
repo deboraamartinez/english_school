@@ -4,15 +4,18 @@ const PersonController = require('../controllers/PersonController')
 
 const router = Router()
 
-router.get('/people', PersonController.getAllPeople)
-router.get('/people/:id', PersonController.getOnePerson)
-router.post('/people', PersonController.createPerson)
-router.put('/people/:id', PersonController.updatePerson)
-router.delete('/people/:id', PersonController.deletePerson)
+router
+  .get('/people', PersonController.getAllActivePeople)
+  .get('/people/all', PersonController.getAllPeople)
+  .get('/people/:id', PersonController.getOnePerson)
+  .post('/people', PersonController.createPerson)
+  .put('/people/:id', PersonController.updatePerson)
+  .delete('/people/:id', PersonController.deletePerson)
+  .post('/people/:id/restore', PersonController.restorePerson)
 
-router.get('/people/:studentId/enrollments/:enrollmentId', PersonController.getOneEnrollment)
-router.post('/people/:studentId/enrollments', PersonController.createEnrollment)
-router.put('/people/:studentId/enrollments/:enrollmentId', PersonController.updateEnrollment)
-router.delete('/people/:studentId/enrollments/:enrollmentId', PersonController.deleteEnrollment)
+  .get('/people/:studentId/enrollments/:enrollmentId', PersonController.getOneEnrollment)
+  .post('/people/:studentId/enrollments', PersonController.createEnrollment)
+  .put('/people/:studentId/enrollments/:enrollmentId', PersonController.updateEnrollment)
+  .delete('/people/:studentId/enrollments/:enrollmentId', PersonController.deleteEnrollment)
 
 module.exports = router
