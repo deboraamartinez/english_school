@@ -1,5 +1,5 @@
-const database = require("../models");
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
+const database = require('../models');
 
 class ClassController {
   static async createClass(req, res) {
@@ -11,6 +11,7 @@ class ClassController {
       return res.status(500).json(error.message);
     }
   }
+
   static async getAllClasses(req, res) {
     const { start_date, final_date } = req.query;
     const where = {};
@@ -58,7 +59,7 @@ class ClassController {
     const { id } = req.params;
     try {
       await database.Classes.destroy({ where: { id: Number(id) } });
-      return res.status(200).json({ message: `Class successfully deleted` });
+      return res.status(200).json({ message: 'Class successfully deleted' });
     } catch (error) {
       return res.status(500).json(error.message);
     }

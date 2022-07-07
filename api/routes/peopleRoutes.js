@@ -1,8 +1,7 @@
-const { Router } = require('express')
-const PersonController = require('../controllers/PersonController')
+const { Router } = require('express');
+const PersonController = require('../controllers/PersonController');
 
-
-const router = Router()
+const router = Router();
 
 router
   .get('/people', PersonController.getAllActivePeople)
@@ -17,6 +16,6 @@ router
   .get('/people/:studentId/enrollments/:enrollmentId', PersonController.getOneEnrollment)
   .post('/people/:studentId/enrollments', PersonController.createEnrollment)
   .put('/people/:studentId/enrollments/:enrollmentId', PersonController.updateEnrollment)
-  .delete('/people/:studentId/enrollments/:enrollmentId', PersonController.deleteEnrollment)
+  .delete('/people/:studentId/enrollments/:enrollmentId', PersonController.deleteEnrollment);
 
-module.exports = router
+module.exports = router;
