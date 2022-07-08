@@ -169,10 +169,17 @@ class PersonController {
   static async cancelPerson(req, res) {
     const { studentId } = req.params;
     try {
-      await database.People.update({ status: false, where: { id: Number(studentId) } });
-      await database.Enrollments.update({
-        status: 'Cancelled',
-        where: { studentId: Number(studentId) },
+      database.sequelize.transaction(async (t) => {
+        await database.People.update(
+          { status: false },
+          { where: { id: Number(studentId) } },
+          { transaction: t },
+        );
+        await database.Enrollments.update(
+          { status: 'Cancelled' },
+          { where: { studentId: Number(studentId) } },
+          { transaction: t },
+        );
       });
       return res.status(200).json({ message: `Student Id${studentId} enrollmentens canceled` });
     } catch (error) {
