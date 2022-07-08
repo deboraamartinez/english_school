@@ -5,26 +5,18 @@ class LevelController {
     const newLevel = req.body;
     try {
       const createdLevel = await database.Levels.create(newLevel);
-      return res
-        .status(200)
-        .json(createdLevel);
+      return res.status(200).json(createdLevel);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
   static async getAllLevels(req, res) {
     try {
       const allLevels = await database.Levels.findAll();
-      return res
-        .status(200)
-        .json(allLevels);
+      return res.status(200).json(allLevels);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -32,13 +24,9 @@ class LevelController {
     const { id } = req.params;
     try {
       const oneLevel = await database.Levels.findOne({ where: { id: Number(id) } });
-      return res
-        .status(200)
-        .json(oneLevel);
+      return res.status(200).json(oneLevel);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -48,13 +36,9 @@ class LevelController {
     try {
       await database.Levels.update(updatedData, { where: { id: Number(id) } });
       const updatedLevel = await database.Levels.findOne({ where: { id: Number(id) } });
-      return res
-        .status(200)
-        .json(updatedLevel);
+      return res.status(200).json(updatedLevel);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -62,13 +46,9 @@ class LevelController {
     const { id } = req.params;
     try {
       await database.Levels.destroy({ where: { id: Number(id) } });
-      return res
-        .status(200)
-        .json({ message: 'Level successfully deleted' });
+      return res.status(200).json({ message: 'Level successfully deleted' });
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 }

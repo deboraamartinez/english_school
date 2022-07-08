@@ -16,6 +16,8 @@ router
   .get('/people/:studentId/enrollments/:enrollmentId', PersonController.getOneEnrollment)
   .post('/people/:studentId/enrollments', PersonController.createEnrollment)
   .put('/people/:studentId/enrollments/:enrollmentId', PersonController.updateEnrollment)
-  .delete('/people/:studentId/enrollments/:enrollmentId', PersonController.deleteEnrollment);
+  .delete('/people/:studentId/enrollments/:enrollmentId', PersonController.deleteEnrollment)
 
+  .get('/people/enrollments/:classId/confirmed', PersonController.getEnrollmentsByClass)
+  .get('/people/enrollments/full', PersonController.getFullyClasses);
 module.exports = router;

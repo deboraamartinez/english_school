@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const database = require('../models');
 
 class PersonController {
@@ -5,39 +6,27 @@ class PersonController {
     const newPerson = req.body;
     try {
       const createdPerson = await database.People.create(newPerson);
-      return res
-        .status(200)
-        .json(createdPerson);
+      return res.status(200).json(createdPerson);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
   static async getAllActivePeople(req, res) {
     try {
       const allActivePeople = await database.People.findAll();
-      return res
-        .status(200)
-        .json(allActivePeople);
+      return res.status(200).json(allActivePeople);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
   static async getAllPeople(req, res) {
     try {
       const allPeople = await database.People.scope('all').findAll();
-      return res
-        .status(200)
-        .json(allPeople);
+      return res.status(200).json(allPeople);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -45,13 +34,9 @@ class PersonController {
     const { id } = req.params;
     try {
       const onePerson = await database.People.findOne({ where: { id: Number(id) } });
-      return res
-        .status(200)
-        .json(onePerson);
+      return res.status(200).json(onePerson);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -61,13 +46,9 @@ class PersonController {
     try {
       await database.People.update(updatedData, { where: { id: Number(id) } });
       const updatedPerson = await database.People.findOne({ where: { id: Number(id) } });
-      return res
-        .status(200)
-        .json(updatedPerson);
+      return res.status(200).json(updatedPerson);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -75,13 +56,9 @@ class PersonController {
     const { id } = req.params;
     try {
       await database.People.destroy({ where: { id: Number(id) } });
-      return res
-        .status(200)
-        .json({ message: 'Person successfully deleted' });
+      return res.status(200).json({ message: 'Person successfully deleted' });
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -89,13 +66,9 @@ class PersonController {
     const { id } = req.params;
     try {
       await database.People.restore({ where: { id: Number(id) } });
-      return res
-        .status(200)
-        .json({ message: `Id ${id} successfully restored` });
+      return res.status(200).json({ message: `Id ${id} successfully restored` });
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -103,15 +76,12 @@ class PersonController {
     const { studentId, enrollmentId } = req.params;
     try {
       const oneEnrollment = await database.Enrollments.findOne({
-        where: { id: Number(enrollmentId) }, studentId: Number(studentId),
+        where: { id: Number(enrollmentId) },
+        studentId: Number(studentId),
       });
-      return res
-        .status(200)
-        .json(oneEnrollment);
+      return res.status(200).json(oneEnrollment);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -120,13 +90,9 @@ class PersonController {
     const newEnrollment = { ...req.body, studentId: Number(studentId) };
     try {
       const createdEnrollment = await database.Enrollments.create(newEnrollment);
-      return res
-        .status(200)
-        .json(createdEnrollment);
+      return res.status(200).json(createdEnrollment);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -135,21 +101,15 @@ class PersonController {
     const newInfos = req.body;
     try {
       await database.Enrollments.update(newInfos, {
-        where:
-        { id: Number(enrollmentId) },
+        where: { id: Number(enrollmentId) },
         studentId: Number(studentId),
       });
       const updatedEnrollment = await database.Enrollments.findOne({
-        where:
-        { id: Number(enrollmentId) },
+        where: { id: Number(enrollmentId) },
       });
-      return res
-        .status(200)
-        .json(updatedEnrollment);
+      return res.status(200).json(updatedEnrollment);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -157,13 +117,9 @@ class PersonController {
     const { enrollmentId } = req.params;
     try {
       await database.Enrollments.destroy({ where: { id: Number(enrollmentId) } });
-      return res
-        .status(200)
-        .json({ message: 'Person successfully deleted' });
+      return res.status(200).json({ message: 'Person successfully deleted' });
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
     }
   }
 
@@ -172,13 +128,41 @@ class PersonController {
     try {
       const person = await database.People.findOne({ where: { id: Number(studentId) } });
       const enrollments = await person.getConfirmedEnrollments();
-      return res
-        .status(200)
-        .json(enrollments);
+      return res.status(200).json(enrollments);
     } catch (error) {
-      return res
-        .status(500)
-        .json(error.message);
+      return res.status(500).json(error.message);
+    }
+  }
+
+  static async getEnrollmentsByClass(req, res) {
+    const { classId } = req.params;
+    try {
+      const allEnrollments = await database.Enrollments.findAndCountAll({
+        where: {
+          classId: Number(classId),
+          status: 'Confirmed',
+        },
+        limit: 10,
+        order: [['studentId', 'DESC']],
+      });
+      return res.status(200).json(allEnrollments);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  static async getFullyClasses(req, res) {
+    const fullClassNumber = 2;
+    try {
+      const fullyClasses = await database.Enrollments.findAndCountAll({
+        where: { status: 'Confirmed' },
+        attributes: ['classId'],
+        group: ['classId'],
+        having: Sequelize.literal(`count(classId) >= ${fullClassNumber}`),
+      });
+      return res.status(200).json(fullyClasses.count);
+    } catch (error) {
+      return res.status(500).json(error.message);
     }
   }
 }
