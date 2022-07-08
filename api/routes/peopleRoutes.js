@@ -17,7 +17,9 @@ router
   .post('/people/:studentId/enrollments', PersonController.createEnrollment)
   .put('/people/:studentId/enrollments/:enrollmentId', PersonController.updateEnrollment)
   .delete('/people/:studentId/enrollments/:enrollmentId', PersonController.deleteEnrollment)
+  .post('/people/:studentId/cancel', PersonController.cancelPerson)
 
   .get('/people/enrollments/:classId/confirmed', PersonController.getEnrollmentsByClass)
   .get('/people/enrollments/full', PersonController.getFullyClasses);
+
 module.exports = router;
