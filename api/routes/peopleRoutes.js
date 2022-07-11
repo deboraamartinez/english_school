@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const PersonController = require('../controllers/PersonController');
+const EnrollmentController = require('../controllers/EnrollmentController');
 
 const router = Router();
 
@@ -13,13 +14,17 @@ router
   .delete('/people/:id', PersonController.deletePerson)
   .post('/people/:id/restore', PersonController.restorePerson)
 
-  .get('/people/:studentId/enrollments/:enrollmentId', PersonController.getOneEnrollment)
-  .post('/people/:studentId/enrollments', PersonController.createEnrollment)
-  .put('/people/:studentId/enrollments/:enrollmentId', PersonController.updateEnrollment)
-  .delete('/people/:studentId/enrollments/:enrollmentId', PersonController.deleteEnrollment)
+  .get('/people/:studentId/enrollments/:enrollmentId', EnrollmentController.getOneEnrollment)
+  .post('/people/:studentId/enrollments', EnrollmentController.createEnrollment)
+  .post(
+    '/people/:studentId/enrollments/:enrollmentId/restore',
+    EnrollmentController.restoreEnrollment,
+  )
+  .put('/people/:studentId/enrollments/:enrollmentId', EnrollmentController.updateEnrollment)
+  .delete('/people/:studentId/enrollments/:enrollmentId', EnrollmentController.deleteEnrollment)
   .post('/people/:studentId/cancel', PersonController.cancelPerson)
 
-  .get('/people/enrollments/:classId/confirmed', PersonController.getEnrollmentsByClass)
-  .get('/people/enrollments/full', PersonController.getFullyClasses);
+  .get('/people/enrollments/:classId/confirmed', EnrollmentController.getEnrollmentsByClass)
+  .get('/people/enrollments/full', EnrollmentController.getFullClasses);
 
 module.exports = router;

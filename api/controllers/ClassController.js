@@ -1,11 +1,14 @@
-const { Op } = require('sequelize');
-const database = require('../models');
+const Sequelize = require('sequelize');
+const Services = require('../services/Services');
+
+const { Op } = Sequelize;
+const classServices = new Services('Classes');
 
 class ClassController {
   static async createClass(req, res) {
     const newClass = req.body;
     try {
-      const createdClass = await database.Classes.create(newClass);
+      const createdClass = await classServices.createRegister(newClass);
       return res.status(200).json(createdClass);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -20,9 +23,7 @@ class ClassController {
     final_date ? (where.start_date[Op.lte] = final_date) : null;
 
     try {
-      const allClasses = await database.Classes.findAll({
-        where,
-      });
+      const allClasses = await classServices.getAllRegister(where);
       return res.status(200).json(allClasses);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -32,9 +33,7 @@ class ClassController {
   static async getOneClass(req, res) {
     const { id } = req.params;
     try {
-      const oneClass = await database.Classes.findOne({
-        where: { id: Number(id) },
-      });
+      const oneClass = await classServices.getOneRegister(Number(id));
       return res.status(200).json(oneClass);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -45,10 +44,8 @@ class ClassController {
     const { id } = req.params;
     const updatedData = req.body;
     try {
-      await database.Classes.update(updatedData, { where: { id: Number(id) } });
-      const updatedClass = await database.Classes.findOne({
-        where: { id: Number(id) },
-      });
+      await classServices.updateRegister(updatedData, Number(id));
+      const updatedClass = await classServices.getOneRegister(Number(id));
       return res.status(200).json(updatedClass);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -58,8 +55,18 @@ class ClassController {
   static async deleteClass(req, res) {
     const { id } = req.params;
     try {
-      await database.Classes.destroy({ where: { id: Number(id) } });
+      await classServices.deleteRegister(id);
       return res.status(200).json({ message: 'Class successfully deleted' });
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  static async restoreClass(req, res) {
+    const { id } = req.params;
+    try {
+      await classServices.restoreRegister(id);
+      return res.status(200).json({ message: 'Class successfully restored' });
     } catch (error) {
       return res.status(500).json(error.message);
     }
